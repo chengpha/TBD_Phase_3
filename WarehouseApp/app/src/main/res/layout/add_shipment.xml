@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblShipmentId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/shipment_id"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtShipmentId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lblShipmentMethod"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxLength="20"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/lblShipmentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lblWeight"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/shipment_method"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtShipmentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lblWeight"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxLength="20"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/lblWeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lblReceiptDate"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/weight"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtWeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lblReceiptDate"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxLength="20" />
+
+        <TextView
+            android:id="@+id/lblReceiptDate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/receipt_date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtReceiptDate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxLength="20"
+            android:autofillHints="" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@color/colorPrimary"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/btnAddShipment"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="@string/add"
+                android:background="@color/colorPrimary"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

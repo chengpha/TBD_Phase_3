@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Warehouse App</string>
+    <string name="upload_file">Upload File</string>
+    <string name="disable_enable_freight">Disable/Enable Freight</string>
+    <string name="add_shipment">Add Shipment</string>
+    <string name="delete_shipment">Delete Shipment</string>
+    <string name="export_warehouse_shipments">Export Warehouse Shipments</string>
+    <string name="display_all_shipments">Display Shipments For All Warehouses</string>
+    <string name="choose_file">Choose File</string>
+    <string name="disable">Disable</string>
+    <string name="enable">Enable</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="export">Export</string>
+    <string name="display">Display</string>
+    <string name="warehouse_id">Warehouse ID</string>
+    <string name="warehouse_name">Warehouse Name</string>
+    <string name="n_a">-</string>
+    <string name="select_warehouse">Select Warehouse</string>
+    <string name="cancel">Cancel</string>
+    <string name="shipment_method">Shipment Method</string>
+    <string name="shipment_id">Shipment ID</string>
+    <string name="weight">Weight</string>
+    <string name="receipt_date">Receipt Date</string>
+</resources>
