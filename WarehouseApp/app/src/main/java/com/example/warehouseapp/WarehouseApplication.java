@@ -4,7 +4,7 @@ import android.app.Application;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.example.warehouseapp.dtos.ShipmentsWrapper;
-import com.example.warehouseapp.model.IModel;
+import com.example.warehouseapp.model.IMainModel;
 import com.example.warehouseapp.model.Shipment;
 import com.example.warehouseapp.model.Warehouse;
 import com.example.warehouseapp.services.DataService;
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class WarehouseApplication extends Application implements IModel {
+public class WarehouseApplication extends Application implements IMainModel {
     private List<Warehouse> warehouseList;
     private Warehouse selectedWarehouse;
     private DataService dataService;
@@ -32,12 +32,17 @@ public class WarehouseApplication extends Application implements IModel {
         this.dataService = new DataService();
         this.xmlService = new XmlService();
         this.gsonService = new GsonService();
+        /**
+         * 'data' directory is needed to save the state of the program
+         * 'output' directory is needed to save json export files
+         */
+        verifyRuntimeDirectoriesExist();
         this.warehouseList = retrieveCurrentState();
 
         /**
          * Uncomment the section below to load some warehouses into the application
          */
-/*        Warehouse warehouse0 = new Warehouse("11111", "");
+       /* Warehouse warehouse0 = new Warehouse("11111", "");
         Warehouse warehouse1 = new Warehouse("22222", "Warehouse N2");
         Warehouse warehouse2 = new Warehouse("33333", "Warehouse N3");
         List<Shipment> shipments = new ArrayList<>();
@@ -46,6 +51,12 @@ public class WarehouseApplication extends Application implements IModel {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             shipments.add(new Shipment(warehouse0.getWarehouseId(), "Shipment 2", "1234b", "truck", 155, 1515354694451L));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            shipments.add(new Shipment(warehouse0.getWarehouseId(), "Shipment 3", "1234as", "ship", 50, 1515354694451L));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            shipments.add(new Shipment(warehouse0.getWarehouseId(), "Shipment 4", "1234bs", "rail", 155, 1515354694451L));
         }
 
         for(Shipment s : shipments)
@@ -200,5 +211,14 @@ public class WarehouseApplication extends Application implements IModel {
         if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
             return fileName.substring(fileName.lastIndexOf(".")+1);
         else return "";
+    }
+
+    private void verifyRuntimeDirectoriesExist() {
+        File dataDirectory = new File(Constants.DATA_DIRECTORY);
+        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
+            dataDirectory.mkdir();
+        dataDirectory = new File(Constants.OUTPUT_DIRECTORY);
+        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
+            dataDirectory.mkdir();
     }
 }

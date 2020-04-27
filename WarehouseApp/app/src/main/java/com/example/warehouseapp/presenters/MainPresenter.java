@@ -1,6 +1,6 @@
 package com.example.warehouseapp.presenters;
 
-import com.example.warehouseapp.model.IModel;
+import com.example.warehouseapp.model.IMainModel;
 import com.example.warehouseapp.model.Warehouse;
 import com.example.warehouseapp.views.IMainView;
 
@@ -8,9 +8,9 @@ import java.util.List;
 
 public class MainPresenter implements IMainPresenter {
     private IMainView view;
-    private IModel model;
+    private IMainModel model;
 
-    public MainPresenter(IModel model) {
+    public MainPresenter(IMainModel model) {
         this.model = model;
     }
 
@@ -58,7 +58,9 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void deleteShipmentClicked() {
-
+        if(model.getSelectedWarehouse() == null)
+            return;
+        view.showDeleteShipment();
     }
 
     @Override
@@ -70,7 +72,9 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void displayAllShipmentsClicked() {
-
+        if(model.getSelectedWarehouse() == null)
+            return;
+        view.showDisplayAllShipments();
     }
 
     @Override

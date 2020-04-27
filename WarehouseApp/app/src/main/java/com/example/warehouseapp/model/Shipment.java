@@ -15,8 +15,8 @@ public class Shipment implements Serializable {
     private String shipment_method;
     private double weight;
     private long receipt_date;
-    private LocalDateTime dateAdded;
-    private LocalDateTime dateRemoved;
+    private LocalDateTime date_added;
+    private LocalDateTime date_removed;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Shipment(String warehouse_id, String warehouse_name, String shipment_id, String shipment_method, double weight, long receipt_date){
@@ -26,7 +26,7 @@ public class Shipment implements Serializable {
         this.shipment_method = shipment_method;
         this.weight = weight;
         this.receipt_date = receipt_date;
-        this.dateAdded = now();
+        this.date_added = now();
     }
 
     //getters
@@ -36,16 +36,20 @@ public class Shipment implements Serializable {
 
     public String getWarehouseName(){return warehouse_name;}
 
+    public String getShipmentMethod(){ return shipment_method; }
+
+    public double getWeight(){return weight;}
+
+    public long getReceiptDate(){ return receipt_date;}
+
     public LocalDateTime getDateAdded(){
-        return dateAdded;
+        return date_added;
     }
 
-    public LocalDateTime getDateRemoved(){
-        return dateRemoved;
-    }
+    public LocalDateTime getDateRemoved(){ return date_removed;}
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDateRemovedNow(){
-        dateRemoved = now();
+        date_removed = now();
     }
 }

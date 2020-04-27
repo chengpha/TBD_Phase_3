@@ -1,5 +1,6 @@
-package com.example.warehouseapp.activities;
+package com.example.warehouseapp.views;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,8 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.warehouseapp.Constants;
@@ -28,9 +28,8 @@ import com.example.warehouseapp.model.Shipment;
 import com.example.warehouseapp.model.Warehouse;
 import com.example.warehouseapp.presenters.IMainPresenter;
 import com.example.warehouseapp.presenters.MainPresenter;
-import com.example.warehouseapp.views.IMainView;
 
-import java.io.File;
+import java.io.Serializable;
 import java.util.stream.Stream;
 
 import es.dmoral.toasty.Toasty;
@@ -55,11 +54,15 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /**
-         * 'data' directory is needed to save the state of the program
-         * 'output' directory is needed to save json export files
-         */
-        verifyRuntimeDirectoriesExist();
+        //  Check Storage Permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_STORAGE_PERMISSION_REQUEST);
+        }
+
         app = (WarehouseApplication)getApplication();
 
         mainPresenter = new MainPresenter(app);
@@ -95,28 +98,13 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         btnAddShipment.setOnClickListener(v -> mainPresenter.addShipmentClicked());
 
         btnDeleteShipment = findViewById(R.id.btnDeleteShipment);
-        btnDeleteShipment.setOnClickListener(v -> {
-            mainPresenter.deleteShipmentClicked();
-            Toasty.error(this, "Not implemented", Toasty.LENGTH_SHORT).show();
-        });
+        btnDeleteShipment.setOnClickListener(v -> mainPresenter.deleteShipmentClicked());
 
         Button btnExportWarehouseShipments = findViewById(R.id.btnExportWarehouseShipments);
         btnExportWarehouseShipments.setOnClickListener(v -> mainPresenter.exportWarehouseShipmentsClicked());
 
         Button btnDisplayAllShipments = findViewById(R.id.btnDisplayAllShipments);
-        btnDisplayAllShipments.setOnClickListener(v -> {
-            mainPresenter.displayAllShipmentsClicked();
-            Toasty.error(this, "Not implemented", Toasty.LENGTH_SHORT).show();
-        });
-
-        //  Check Storage Permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_STORAGE_PERMISSION_REQUEST);
-        }
+        btnDisplayAllShipments.setOnClickListener(v -> mainPresenter.displayAllShipmentsClicked());
     }
 
 
@@ -182,6 +170,34 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     }
 
     @Override
+    public void showDeleteShipment() {
+        Intent intent = new Intent(this, DeleteShipmentActivity.class);
+        intent.putExtra("warehouse", mainPresenter.getSelectedWarehouse());
+        startActivityForResult(intent, Constants.DELETE_SHIPMENT_CONST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Warehouse warehouse;
+        if (requestCode == Constants.DELETE_SHIPMENT_CONST) {
+            if (resultCode == RESULT_OK) {
+                Serializable temp = data.getSerializableExtra("result");
+                if (temp != null){
+                    warehouse = (Warehouse) temp;
+                    mainPresenter.getWarehouseList().forEach(w->{
+                        if(w.getWarehouseId().equals(warehouse.getWarehouseId())
+                                && w.getShipments().size()!= warehouse.getShipments().size()){
+                            w.getShipments().clear();
+                            w.addShipments(warehouse.getShipments());
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    @Override
     public void showDisableEnableFreight() {
         String msg = String.format("Freight receipt has been %s for warehouse %s"
                 ,!mainPresenter.getSelectedWarehouse().isFreightReceiptEnabled() ? "disabled" : "enabled"
@@ -203,6 +219,13 @@ public class MainActivity extends AppCompatActivity implements IMainView {
             msg = String.format("Failed to export shipments for warehouse: %s. Cannot access output directory.", mainPresenter.getSelectedWarehouse());
             Toasty.error(this, msg, Toasty.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void showDisplayAllShipments() {
+        Intent intent = new Intent(this, DisplayAllShipmentsActivity.class);
+        intent.putExtra("warehouse_list", (Serializable) mainPresenter.getWarehouseList());
+        startActivityForResult(intent, Constants.DISPLAY_ALL_SHIPMENTS_CONST);
     }
 
     /**
@@ -288,15 +311,6 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         lblWarehouseName.setText(mainPresenter.getSelectedWarehouse().getWarehouseName().equals("")
                 ? getString(R.string.n_a)
                 : mainPresenter.getSelectedWarehouse().getWarehouseName());
-    }
-
-    private void verifyRuntimeDirectoriesExist() {
-        File dataDirectory = new File(Constants.DATA_DIRECTORY);
-        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
-            dataDirectory.mkdir();
-        dataDirectory = new File(Constants.OUTPUT_DIRECTORY);
-        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
-            dataDirectory.mkdir();
     }
 
     @Override

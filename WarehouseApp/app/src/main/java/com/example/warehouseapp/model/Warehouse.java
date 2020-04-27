@@ -29,6 +29,10 @@ public class Warehouse implements Serializable {
         return false;
     }
 
+    public void addShipments(Collection<Shipment> shipments){
+        this.shipments.addAll(shipments);
+    }
+
     public String getWarehouseId (){ return warehouse_id;}
 
     public String getWarehouseName(){ return warehouse_name;}

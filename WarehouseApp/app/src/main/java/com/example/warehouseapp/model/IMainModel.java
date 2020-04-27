@@ -3,7 +3,7 @@ package com.example.warehouseapp.model;
 
 import java.util.List;
 
-public interface IModel {
+public interface IMainModel {
 
     List<Warehouse> getWarehouseList();
     void setSelectedWarehouse(Warehouse warehouse);
