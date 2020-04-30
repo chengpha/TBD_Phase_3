@@ -318,11 +318,15 @@ public class MainActivity extends AppCompatActivity implements IMainView {
             btnDisableEnableFreight.setText("Disable");
             btnAddShipment.setEnabled(true);
             btnDeleteShipment.setEnabled(true);
+            btnAddShipment.setText("Add");
+            btnDeleteShipment.setText("Delete");
         }
         else{
             btnDisableEnableFreight.setText("Enable");
             btnAddShipment.setEnabled(false);
             btnDeleteShipment.setEnabled(false);
+            btnAddShipment.setText("-");
+            btnDeleteShipment.setText("-");
         }
     }
 
