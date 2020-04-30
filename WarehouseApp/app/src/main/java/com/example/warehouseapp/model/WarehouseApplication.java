@@ -105,7 +105,7 @@ public class WarehouseApplication extends Application implements IMainModel {
                         warehouse.getWarehouseId());
         }
 
-        return  String.format("File %s has been imported.\n%s", path, msg);
+        return  String.format("File %s has been imported.\n\n%s", path, msg);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
