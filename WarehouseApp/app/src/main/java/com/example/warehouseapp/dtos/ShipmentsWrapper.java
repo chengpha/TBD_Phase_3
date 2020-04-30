@@ -1,7 +1,6 @@
 package com.example.warehouseapp.dtos;
 
 import com.example.warehouseapp.model.Shipment;
-
 import java.util.Collection;
 
 /**

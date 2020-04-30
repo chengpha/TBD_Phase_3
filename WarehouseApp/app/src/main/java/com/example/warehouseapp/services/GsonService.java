@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,6 +25,10 @@ import static java.nio.file.Files.exists;
  * Gson controller implements Gson library to perform JSON read/write file operations across the application.
  */
 public class GsonService implements IFileService {
+    /**
+     * This method isn't used in the android app. It comes from the library
+     * that was used by the desktop application. Instead the overload below it is used.
+     */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Collection<Shipment> processInputFile(String file) throws Exception{
         Collection<Shipment> list;
@@ -34,8 +40,14 @@ public class GsonService implements IFileService {
         return list;
     }
 
-    public String exportShipmentsToJsonString(Object o){
-        return new Gson().toJson(o);
+    public Collection<Shipment> processInputFile(InputStream file) throws Exception{
+        Collection<Shipment> list;
+        try (Reader reader = new InputStreamReader(file)) {
+            list = new Gson().fromJson(reader, ShipmentsWrapper.class).getShipmentList();
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

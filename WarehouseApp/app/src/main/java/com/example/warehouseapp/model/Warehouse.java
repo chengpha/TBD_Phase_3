@@ -2,12 +2,14 @@ package com.example.warehouseapp.model;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+import com.example.warehouseapp.Constants;
+import com.example.warehouseapp.adapters.IWarehouseAdapterItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Warehouse implements Serializable {
+public class Warehouse implements Serializable, IWarehouseAdapterItem {
     private String warehouse_id;
     private String warehouse_name;
     private Collection<Shipment> shipments = new ArrayList<>();
@@ -47,4 +49,9 @@ public class Warehouse implements Serializable {
 
     @Override
     public String toString(){ return warehouse_id;}
+
+    @Override
+    public int objectIdentifier() {
+        return Constants.WAREHOUSE_ID;
+    }
 }

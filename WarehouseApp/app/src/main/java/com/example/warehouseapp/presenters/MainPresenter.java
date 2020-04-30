@@ -4,6 +4,7 @@ import com.example.warehouseapp.model.IMainModel;
 import com.example.warehouseapp.model.Warehouse;
 import com.example.warehouseapp.views.IMainView;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class MainPresenter implements IMainPresenter {
@@ -29,8 +30,9 @@ public class MainPresenter implements IMainPresenter {
     }
 
     @Override
-    public void chooseFileClicked() {
-
+    public void chooseFileClicked(InputStream is, String path) throws Exception {
+        String msg = model.processInputFile(is, path);
+        view.showFileProcessed(msg);
     }
 
     @Override
@@ -75,10 +77,5 @@ public class MainPresenter implements IMainPresenter {
         if(model.getSelectedWarehouse() == null)
             return;
         view.showDisplayAllShipments();
-    }
-
-    @Override
-    public void saveCurrentState() {
-        model.saveCurrentState();
     }
 }

@@ -25,7 +25,6 @@ public class DataService {
             e.printStackTrace();
         }
     }
-
     /**
      * retrieve the current state of application
      * @param filePath

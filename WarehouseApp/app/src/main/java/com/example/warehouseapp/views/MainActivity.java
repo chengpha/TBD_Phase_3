@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -20,33 +21,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.warehouseapp.Constants;
 import com.example.warehouseapp.R;
-import com.example.warehouseapp.WarehouseApplication;
+import com.example.warehouseapp.model.IMainModel;
+import com.example.warehouseapp.model.WarehouseApplication;
 import com.example.warehouseapp.model.Shipment;
 import com.example.warehouseapp.model.Warehouse;
 import com.example.warehouseapp.presenters.IMainPresenter;
 import com.example.warehouseapp.presenters.MainPresenter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.stream.Stream;
-
 import es.dmoral.toasty.Toasty;
-
-import static android.R.layout.simple_spinner_dropdown_item;
+import static com.example.warehouseapp.R.layout.spinner_drop_down_item;
 import static com.example.warehouseapp.R.layout.spinner_item;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity implements IMainView {
     private static final int WRITE_STORAGE_PERMISSION_REQUEST = 5;
+    private final static int FILE_REQUEST_CODE = 1;
     private IMainPresenter mainPresenter;
-    private WarehouseApplication app;
+    private IMainModel app;
     private Button btnDisableEnableFreight;
     private Button btnAddShipment;
     private TextView lblWarehouseId;
     private TextView lblWarehouseName;
     private Button btnDeleteShipment;
+    private ArrayAdapter<Warehouse> spinnerAdapter;
+    private Intent fileIntent;
 
     @SuppressLint("DefaultLocale")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -62,8 +68,13 @@ public class MainActivity extends AppCompatActivity implements IMainView {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     WRITE_STORAGE_PERMISSION_REQUEST);
         }
-
+        /**
+         * 'data' directory is needed to save the state of the program
+         * 'output' directory is needed to save json export files
+         */
+        verifyRuntimeDirectoriesExist();
         app = (WarehouseApplication)getApplication();
+        app.retrieveCurrentState();
 
         mainPresenter = new MainPresenter(app);
         mainPresenter.setView(this);
@@ -71,16 +82,11 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         lblWarehouseId = findViewById(R.id.lblWarehouseId);
         lblWarehouseName = findViewById(R.id.lblWarehouseName);
 
-        Button btnChooseFile = findViewById(R.id.btnChooseFile);
-        btnChooseFile.setOnClickListener(a -> {
-            Toasty.error(this, "Not implemented", Toasty.LENGTH_SHORT).show();
-        });
-
-
         Spinner spnSelectWarehouse = findViewById(R.id.spnSelectWarehouse);
-        ArrayAdapter<Warehouse> adapter = new ArrayAdapter<>(this, spinner_item, mainPresenter.getWarehouseList());
-        adapter.setDropDownViewResource(simple_spinner_dropdown_item);
-        spnSelectWarehouse.setAdapter(adapter);
+        spinnerAdapter = new ArrayAdapter<>(this, spinner_item, mainPresenter.getWarehouseList());
+        spinnerAdapter.notifyDataSetChanged();
+        spinnerAdapter.setDropDownViewResource(spinner_drop_down_item);
+        spnSelectWarehouse.setAdapter(spinnerAdapter);
         spnSelectWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements IMainView {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent){}
+        });
+
+        Button btnChooseFile = findViewById(R.id.btnChooseFile);
+        btnChooseFile.setOnClickListener(v -> {
+            fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            fileIntent.setType("*/*");
+            startActivityForResult(fileIntent, FILE_REQUEST_CODE);
         });
 
         btnDisableEnableFreight = findViewById(R.id.btnDisableEnableFreight);
@@ -107,32 +120,13 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         btnDisplayAllShipments.setOnClickListener(v -> mainPresenter.displayAllShipmentsClicked());
     }
 
-
-    /**
-     * Indicates when the user has responded to a permission request
-     * @param requestCode The request code
-     * @param permissions The permissions requested
-     * @param grantResults The result
-     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case WRITE_STORAGE_PERMISSION_REQUEST: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toasty.error(this, "Permission required, closing application",
-                            Toasty.LENGTH_LONG).show();
-                    finish();
-                }
-                return;
-            }
-        }
+    public void showFileProcessed(String msg) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("File upload report:")
+                .setMessage(msg)
+                .setNeutralButton("Ok", (dialog, which) -> dialog.cancel())
+                .show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -179,22 +173,50 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Warehouse warehouse;
-        if (requestCode == Constants.DELETE_SHIPMENT_CONST) {
-            if (resultCode == RESULT_OK) {
-                Serializable temp = data.getSerializableExtra("result");
-                if (temp != null){
-                    warehouse = (Warehouse) temp;
-                    mainPresenter.getWarehouseList().forEach(w->{
-                        if(w.getWarehouseId().equals(warehouse.getWarehouseId())
-                                && w.getShipments().size()!= warehouse.getShipments().size()){
-                            w.getShipments().clear();
-                            w.addShipments(warehouse.getShipments());
+
+        //handle file picking
+        if (requestCode == FILE_REQUEST_CODE
+                && resultCode == RESULT_OK
+                && data != null) {
+
+            String path = data.getData().getPath();
+            Uri fileUri = data.getData();
+            InputStream is = null;
+            try {
+                is = getContentResolver().openInputStream(fileUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                mainPresenter.chooseFileClicked(is, path);
+            } catch (Exception e) {
+                Toasty.error(this, String.format("Bad file: %s", e.getMessage()), Toasty.LENGTH_LONG).show();
+            }
+            finally {
+                try {
+                    is.close();
+                    spinnerAdapter.notifyDataSetChanged();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //handle file deletion
+        if (requestCode == Constants.DELETE_SHIPMENT_CONST && resultCode == RESULT_OK) {
+            Warehouse warehouse;
+            Serializable temp = data.getSerializableExtra("result");
+            if (temp != null){
+                warehouse = (Warehouse) temp;
+                mainPresenter.getWarehouseList().forEach(w-> {
+                    if(w.getWarehouseId().equals(warehouse.getWarehouseId())
+                            && w.getShipments().size()!= warehouse.getShipments().size()){
+                        w.getShipments().clear();
+                        w.addShipments(warehouse.getShipments());
                         }
                     });
                 }
             }
-        }
     }
 
     @Override
@@ -281,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
                 receiptDateLong
         );
 
+        shipment.setDateAdded();
         selectedWarehouse.addShipment(shipment);
         String msg = String.format("Shipment %s has been added to warehouse %s"
                 ,shipment.getShipmentId()
@@ -303,19 +326,38 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         }
     }
 
+    /**
+     * Updates the labels with the selected warehouse's name and ID
+     * @param warehouse
+     */
     @Override
     public void setSelectedWarehouse(Warehouse warehouse) {
         enableDisableControlsOnFreightReceiptChange(warehouse);
 
         lblWarehouseId.setText( mainPresenter.getSelectedWarehouse().toString());
-        lblWarehouseName.setText(mainPresenter.getSelectedWarehouse().getWarehouseName().equals("")
+        lblWarehouseName.setText(mainPresenter.getSelectedWarehouse().getWarehouseName() == null
                 ? getString(R.string.n_a)
                 : mainPresenter.getSelectedWarehouse().getWarehouseName());
     }
 
+    /**
+     * Verifies the runtime directories exist. They are needed for the app to function
+     */
+    private void verifyRuntimeDirectoriesExist() {
+        File dataDirectory = new File(Constants.DATA_DIRECTORY);
+        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
+            dataDirectory.mkdir();
+        dataDirectory = new File(Constants.OUTPUT_DIRECTORY);
+        if(!(dataDirectory.exists() || dataDirectory.isDirectory()))
+            dataDirectory.mkdir();
+    }
+
+    /**
+     * save the changes made by the user on pause
+     */
     @Override
     protected void onPause() {
         super.onPause();
-        mainPresenter.saveCurrentState();
+        app.saveCurrentState();
     }
 }

@@ -61,7 +61,7 @@ public class ShipmentAdapter extends BaseAdapter {
         weight.setText(new Double(shipment.getWeight()).toString());
         receipt_date.setText(new Long(shipment.getReceiptDate()).toString());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        date_added.setText(shipment.getDateAdded().format(formatter));
+        date_added.setText(formatter.format(shipment.getDateAdded()));
 
         return view;
     }

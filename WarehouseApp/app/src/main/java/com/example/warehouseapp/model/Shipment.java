@@ -1,14 +1,15 @@
 package com.example.warehouseapp.model;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
+import com.example.warehouseapp.Constants;
+import com.example.warehouseapp.adapters.IWarehouseAdapterItem;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import static java.time.LocalDateTime.now;
 
-public class Shipment implements Serializable {
+public class Shipment implements Serializable, IWarehouseAdapterItem {
     private String warehouse_id;
     private String warehouse_name;
     private String shipment_id;
@@ -26,7 +27,6 @@ public class Shipment implements Serializable {
         this.shipment_method = shipment_method;
         this.weight = weight;
         this.receipt_date = receipt_date;
-        this.date_added = now();
     }
 
     //getters
@@ -46,10 +46,20 @@ public class Shipment implements Serializable {
         return date_added;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setDateAdded(){
+        this.date_added = now();
+    }
+
     public LocalDateTime getDateRemoved(){ return date_removed;}
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDateRemovedNow(){
         date_removed = now();
+    }
+
+    @Override
+    public int objectIdentifier() {
+        return Constants.SHIPMENT_ID;
     }
 }

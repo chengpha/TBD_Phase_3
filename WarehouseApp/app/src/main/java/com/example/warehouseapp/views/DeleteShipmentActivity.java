@@ -3,15 +3,12 @@ package com.example.warehouseapp.views;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.warehouseapp.R;
 import com.example.warehouseapp.adapters.ShipmentAdapter;
 import com.example.warehouseapp.model.DeleteShipmentModel;
