@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     public void showDeleteShipment() {
         Intent intent = new Intent(this, DeleteShipmentActivity.class);
         intent.putExtra("warehouse", mainPresenter.getSelectedWarehouse());
-        startActivityForResult(intent, Constants.DELETE_SHIPMENT_CONST);
+        startActivityForResult(intent, Constants.DELETE_SHIPMENT_CODE);
     }
 
     @Override
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         }
 
         //handle file deletion
-        if (requestCode == Constants.DELETE_SHIPMENT_CONST && resultCode == RESULT_OK) {
+        if (requestCode == Constants.DELETE_SHIPMENT_CODE && resultCode == RESULT_OK) {
             Warehouse warehouse;
             Serializable temp = data.getSerializableExtra("result");
             if (temp != null){
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     public void showDisplayAllShipments() {
         Intent intent = new Intent(this, DisplayAllShipmentsActivity.class);
         intent.putExtra("warehouse_list", (Serializable) mainPresenter.getWarehouseList());
-        startActivityForResult(intent, Constants.DISPLAY_ALL_SHIPMENTS_CONST);
+        startActivityForResult(intent, Constants.DISPLAY_ALL_SHIPMENTS_CODE);
     }
 
     /**
