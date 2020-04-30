@@ -126,6 +126,7 @@ public class WarehouseApplication extends Application implements IMainModel {
 
     @Override
     public void retrieveCurrentState() {
+        this.warehouseList.clear();
         this.warehouseList.addAll(dataService.retrieveCurrentState(Constants.DATA_DIRECTORY));
     }
 

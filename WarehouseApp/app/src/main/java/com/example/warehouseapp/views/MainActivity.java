@@ -83,8 +83,10 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         lblWarehouseName = findViewById(R.id.lblWarehouseName);
 
         Spinner spnSelectWarehouse = findViewById(R.id.spnSelectWarehouse);
-        spinnerAdapter = new ArrayAdapter<>(this, spinner_item, mainPresenter.getWarehouseList());
-        spinnerAdapter.setDropDownViewResource(spinner_drop_down_item);
+        if(spinnerAdapter == null){
+            spinnerAdapter = new ArrayAdapter<>(this, spinner_item, mainPresenter.getWarehouseList());
+            spinnerAdapter.setDropDownViewResource(spinner_drop_down_item);
+        }
         spnSelectWarehouse.setAdapter(spinnerAdapter);
         spnSelectWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -316,16 +318,12 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         if(w.isFreightReceiptEnabled()){
             btnDisableEnableFreight.setText("Disable");
             btnAddShipment.setEnabled(true);
-            btnDeleteShipment.setEnabled(true);
             btnAddShipment.setText("Add");
-            btnDeleteShipment.setText("Delete");
         }
         else{
             btnDisableEnableFreight.setText("Enable");
             btnAddShipment.setEnabled(false);
-            btnDeleteShipment.setEnabled(false);
             btnAddShipment.setText("-");
-            btnDeleteShipment.setText("-");
         }
     }
 
