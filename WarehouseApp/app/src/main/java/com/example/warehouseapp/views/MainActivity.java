@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 
         Spinner spnSelectWarehouse = findViewById(R.id.spnSelectWarehouse);
         spinnerAdapter = new ArrayAdapter<>(this, spinner_item, mainPresenter.getWarehouseList());
-        spinnerAdapter.notifyDataSetChanged();
         spinnerAdapter.setDropDownViewResource(spinner_drop_down_item);
         spnSelectWarehouse.setAdapter(spinnerAdapter);
         spnSelectWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -360,8 +359,8 @@ public class MainActivity extends AppCompatActivity implements IMainView {
      * save the changes made by the user on pause
      */
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         app.saveCurrentState();
     }
 }
