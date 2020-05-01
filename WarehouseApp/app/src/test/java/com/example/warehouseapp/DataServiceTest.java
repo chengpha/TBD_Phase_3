@@ -8,6 +8,7 @@ import org.junit.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.io.FileUtils.cleanDirectory;
@@ -58,8 +59,10 @@ public class DataServiceTest {
         // Assert the results
         assertNotNull(stu);
         assertEquals(warehouseList.size(), stu.size());
-        assertEquals("12513", stu.get(0).getWarehouseId());
-        assertEquals("15566", stu.get(1).getWarehouseId());
+        List<String> listIds = new ArrayList<>();
+        stu.forEach(w-> listIds.add(w.getWarehouseId()));
+        assertTrue(listIds.contains(warehouseList.get(0).getWarehouseId()));
+        assertTrue(listIds.contains(warehouseList.get(1).getWarehouseId()));
     }
 
     /**
