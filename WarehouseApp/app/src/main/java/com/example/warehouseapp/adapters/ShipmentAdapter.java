@@ -17,7 +17,9 @@ import com.example.warehouseapp.model.Warehouse;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-
+/**
+ * adapter used to display individual shipments in a ListView
+ */
 public class ShipmentAdapter extends BaseAdapter {
     private Warehouse warehouse;
     private Context context;

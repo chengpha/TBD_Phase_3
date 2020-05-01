@@ -2,6 +2,9 @@ package com.example.warehouseapp.model;
 
 import java.util.ArrayList;
 
+/**
+ * model used to remove individual shipments from warehouses
+ */
 public class DeleteShipmentModel implements IDeleteShipmentModel {
     private Warehouse warehouse;
 

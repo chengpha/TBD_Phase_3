@@ -8,6 +8,9 @@ import com.example.warehouseapp.adapters.WarehouseAdapter;
 import com.example.warehouseapp.model.Warehouse;
 import java.util.List;
 
+/**
+ * Activity used to display all shipments in each and every warehouse
+ */
 public class DisplayAllShipmentsActivity extends AppCompatActivity implements IDisplayAllShipmentView{
     public List<Warehouse> warehouse_list;
     @Override

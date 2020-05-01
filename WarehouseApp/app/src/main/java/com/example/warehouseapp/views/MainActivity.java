@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         mainPresenter = new MainPresenter(app);
         mainPresenter.setView(this);
 
+        /**
+         * setting up controls
+         */
         lblWarehouseId = findViewById(R.id.lblWarehouseId);
         lblWarehouseName = findViewById(R.id.lblWarehouseName);
 
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements IMainView {
                 .show();
     }
 
+    /**
+     * An alert dialog is used to allow users to enter new shipments into the system
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void showAddShipment() {
@@ -314,6 +320,11 @@ public class MainActivity extends AppCompatActivity implements IMainView {
         return true;
     }
 
+    /**
+     * Every time freight gets disabled for a warehouse, the text of the button will be changed and
+     * the ability to add new shipments will be disabled
+     * @param w
+     */
     public void enableDisableControlsOnFreightReceiptChange(Warehouse w){
         if(w.isFreightReceiptEnabled()){
             btnDisableEnableFreight.setText("Disable");

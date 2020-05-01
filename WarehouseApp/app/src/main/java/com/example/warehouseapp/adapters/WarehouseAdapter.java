@@ -19,6 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * adapter used to display warehouse along with their shipments in a ListView
+ */
 public class WarehouseAdapter extends BaseAdapter {
     private List<IWarehouseAdapterItem> adapterList;
     private Context context;
