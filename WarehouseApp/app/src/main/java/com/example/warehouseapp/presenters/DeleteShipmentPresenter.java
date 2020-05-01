@@ -4,6 +4,9 @@ import com.example.warehouseapp.model.IDeleteShipmentModel;
 import com.example.warehouseapp.model.Shipment;
 import com.example.warehouseapp.views.IDeleteShipmentView;
 
+/**
+ * this presenter serves as a middleman between DeleteShipmentModel and DeleteShipmentView
+ */
 public class DeleteShipmentPresenter implements IDeleteShipmentPresenter {
     private IDeleteShipmentView view;
     private IDeleteShipmentModel model;

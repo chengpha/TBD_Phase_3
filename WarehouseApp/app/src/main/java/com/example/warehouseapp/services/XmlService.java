@@ -25,7 +25,7 @@ public class XmlService implements IFileService {
     /**
      Visitor design pattern is used in this class.
 
-     This method below isn't used in the android app. It comes from the library
+     The method below isn't used in the android app. It comes from the library
      that was used by the desktop application. Instead, the overload below it is used.
      */
     public Collection<Shipment> processInputFile(String file) throws Exception {

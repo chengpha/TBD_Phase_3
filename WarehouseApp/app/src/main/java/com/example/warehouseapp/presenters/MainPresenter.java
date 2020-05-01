@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * works as a middleman between MainActivity and MainModel (WarehouseApplication)
+ * this presenter class serves as a middleman between MainActivity and MainModel (WarehouseApplication)
  */
 public class MainPresenter implements IMainPresenter {
     private IMainView view;
