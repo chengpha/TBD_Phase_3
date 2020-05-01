@@ -28,16 +28,21 @@ public class GsonServiceTest {
     private GsonService stu;
     private List<Shipment> shipments;
     private String directoryPath;
+    private File directoryFile;
 
     @Before
     public void initGsonServiceTests(){
 
         // Directory used for test files
         directoryPath = System.getProperty("user.dir") + "/testData/";
+        directoryFile = new File(directoryPath);
+        if(!directoryFile.exists()) {
+            directoryFile.mkdir();
+        }
         // The files in the data directory must be removed prior to performing the tests.
         // Otherwise they might interfere with other tests.
         try {
-            cleanDirectory(new File(directoryPath));
+            cleanDirectory(directoryFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,7 +169,7 @@ public class GsonServiceTest {
     @After
     public void FileCleanUp() {
         try {
-            cleanDirectory(new File(directoryPath));
+            cleanDirectory(directoryFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
