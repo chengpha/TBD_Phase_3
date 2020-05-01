@@ -1,6 +1,7 @@
 package com.example.warehouseapp.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * model used to remove individual shipments from warehouses
@@ -15,11 +16,11 @@ public class DeleteShipmentModel implements IDeleteShipmentModel {
     @Override
     public void deleteShipment(Shipment shipment) {
         ArrayList<Shipment> shipments = (ArrayList<Shipment>)warehouse.getShipments();
-        for (Shipment s : shipments) {
-            if(s.getShipmentId().equals(shipment.getShipmentId())){
-                shipments.remove(s);
-                break;
-            }
-        }
+        shipments.remove(shipment);
+    }
+
+    @Override
+    public Collection<Shipment> getShipments() {
+        return warehouse.getShipments();
     }
 }
