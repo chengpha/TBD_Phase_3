@@ -5,15 +5,16 @@ import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.warehouseapp.R;
 import com.example.warehouseapp.adapters.WarehouseAdapter;
 import com.example.warehouseapp.model.Warehouse;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class WarehouseAdapterTest {
 
@@ -25,9 +26,9 @@ public class WarehouseAdapterTest {
         List<Warehouse> warehouses = new ArrayList<Warehouse>();
         warehouses.add(new Warehouse("12345", "abcde"));
         warehouses.add(new Warehouse("67890", "fghij"));
-        WarehouseAdapter adapater = new WarehouseAdapter(InstrumentationRegistry.getInstrumentation().getTargetContext(), warehouses);
+        WarehouseAdapter adapter = new WarehouseAdapter(InstrumentationRegistry.getInstrumentation().getTargetContext(), warehouses);
 
-        int count = adapater.getCount();
+        int count = adapter.getCount();
 
         assertEquals(2, count);
     }
@@ -40,9 +41,9 @@ public class WarehouseAdapterTest {
         List<Warehouse> warehouses = new ArrayList<Warehouse>();
         warehouses.add(new Warehouse("12345", "abcde"));
         warehouses.add(new Warehouse("67890", "fghij"));
-        WarehouseAdapter adapater = new WarehouseAdapter(InstrumentationRegistry.getInstrumentation().getTargetContext(), warehouses);
+        WarehouseAdapter adapter = new WarehouseAdapter(InstrumentationRegistry.getInstrumentation().getTargetContext(), warehouses);
 
-        Warehouse warehouse = (Warehouse)adapater.getItem(1);
+        Warehouse warehouse = (Warehouse)adapter.getItem(1);
 
         assertNotNull(warehouse);
         assertEquals("67890", warehouse.getWarehouseId());

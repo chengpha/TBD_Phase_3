@@ -1,0 +1,51 @@
+@startuml
+user--> mainActivity:open
+mainActivity-->warehouseApplication:create()
+
+
+warehouseApplication-->warehouse: create()
+warehouseApplication-->dataService: create()
+warehouseApplication-->gsonService: create()
+warehouseApplication-->mainPresenter:setSelectedWarehouse() 
+warehouseApplication-->mainPresenter:disableEnableFreight()
+mainActivity-->warehouseApplication: retrieveCurrentState()
+warehouseApplication-->dataService: retrieveCurrentState()
+
+
+mainActivity-->mainPresenter: create()
+user--> mainPresenter: btnChooseFile
+warehouseApplication<--mainPresenter: String msg
+warehouseApplication-->FileServiceFactory:create
+warehouseApplication-->warehouse: create
+warehouse-->shipment: create()
+warehouse<--shipment: add shipment to shipment list
+warehouseApplication<--warehouse: return warehouse list of shipments
+mainActivity-->mainPresenter: show file processed
+
+
+user--> mainPresenter: btnDisableEnableFreight
+warehouseApplication<--mainPresenter:btnDisableEnableFreight()
+mainActivity-->mainPresenter:showDisableEnableFreight()
+
+
+user--> mainPresenter:btnAddShipment
+warehouseApplication<--mainPresenter:processInputFile
+mainActivity<--mainPresenter:addShipmentClicked
+mainActivity-->mainPresenter:setOnClickListener()
+
+
+user--> mainPresenter:btnDeleteShipment
+mainActivity<--mainPresenter:deleteShipmentClickedlicked
+mainActivity-->mainPresenter:showDeleteShipment()
+
+
+user-->mainPresenter:btnExportWarehouseShipments
+mainActivity<--mainPresenter:exportWarehouseShipmentsClicked
+mainActivity-->mainPresenter:showExportToJson()
+
+
+user-->mainPresenter:btnDisplayAllShipments
+mainActivity<--mainPresenter:displayAllShipmentsClicked()
+
+mainActivity-->mainPresenter:showDisplayAllShipments
+@enduml
