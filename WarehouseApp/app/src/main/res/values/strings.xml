@@ -22,4 +22,5 @@
     <string name="shipment_id">Shipment ID</string>
     <string name="weight">Weight</string>
     <string name="receipt_date">Receipt Date</string>
+    <string name="date_added">date_added:</string>
 </resources>

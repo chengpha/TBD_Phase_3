@@ -6,7 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,7 +26,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginStart="5dp" />
 
             <TextView
                 android:id="@+id/shipment_method_label"
@@ -67,7 +69,8 @@
                 android:text="receipt_date:"
                 android:layout_below="@id/weight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_marginStart="5dp" />
 
             <TextView
                 android:id="@+id/date_added_label"
@@ -78,10 +81,11 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="date_added:"
+                android:text="@string/date_added"
                 android:layout_below="@id/receipt_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_marginStart="5dp" />
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,7 +104,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/shipment_method"
@@ -115,7 +120,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/weight"
@@ -129,13 +135,13 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/receipt_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/weight"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
@@ -143,13 +149,13 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/date_added"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/receipt_date"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
@@ -157,7 +163,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="5dp" />
     </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

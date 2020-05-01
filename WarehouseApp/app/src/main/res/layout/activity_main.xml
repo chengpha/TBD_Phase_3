@@ -30,7 +30,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtSelectWarehouse"
@@ -43,7 +44,8 @@
             android:gravity="center_vertical"
             android:text="@string/select_warehouse"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtDisableEnableFreight"
@@ -56,7 +58,8 @@
             android:layout_weight="1"
             android:text="@string/disable_enable_freight"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtAddShipment"
@@ -69,7 +72,8 @@
             android:text="@string/add_shipment"
             android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtDeleteShipment"
@@ -82,7 +86,8 @@
             android:layout_weight="1"
             android:text="@string/delete_shipment"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtExportWarehouseShipments"
@@ -95,7 +100,8 @@
             android:text="@string/export_warehouse_shipments"
             android:textColor="@color/colorPrimaryDark"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/txtDisplayAllShipments"
@@ -108,7 +114,8 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/display_all_shipments"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp" />
 
     </LinearLayout>
 
@@ -132,7 +139,8 @@
             android:layout_marginRight="10dp"
             android:text="@string/choose_file"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Spinner
             android:id="@+id/spnSelectWarehouse"
@@ -145,7 +153,8 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Button
             android:id="@+id/btnDisableEnableFreight"
@@ -158,7 +167,8 @@
             android:layout_height="match_parent"
             android:text="@string/disable"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Button
             android:id="@+id/btnAddShipment"
@@ -171,7 +181,8 @@
             android:layout_height="match_parent"
             android:text="@string/add"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Button
             android:id="@+id/btnDeleteShipment"
@@ -184,7 +195,8 @@
             android:layout_weight="1"
             android:text="@string/delete"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Button
             android:id="@+id/btnExportWarehouseShipments"
@@ -197,7 +209,8 @@
             android:layout_height="match_parent"
             android:text="@string/export"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
         <Button
             android:id="@+id/btnDisplayAllShipments"
@@ -210,7 +223,8 @@
             android:textColor="#FFFFFF"
             android:text="@string/display"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:layout_marginEnd="10dp" />
 
     </LinearLayout>
 
@@ -284,7 +298,8 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="32sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginEnd="5dp" />
         </TableRow>
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
